@@ -1,0 +1,115 @@
+networks:
+  roboshop1:
+    driver: bridge
+  
+  volumes:
+    mongodb:
+    redis:
+    mysql:
+    rabbitmq:
+
+  services:
+    mongodb:
+      image: sai/mongodb:v1
+      container_name: mongodb
+      networks:
+        - roboshop1
+      volumes:
+      - source: mongodb
+        target: /data/db
+        type: volume
+
+    catalogue:
+      image: sai/catalogue:v1
+      container_name: catalogue
+      networks:
+        - roboshop1
+      depends_on:
+        - mongodb
+
+    redis:
+      image: sai/redis:v1
+      container_name: redis
+      networks:
+        - roboshop1
+      volumes:
+      - source: redis
+        target: /data
+        type: volume
+
+    user:
+      image: sai/user:v1
+      container_name: user
+      networks:
+        - roboshop1
+      depends_on:
+        - mongodb
+        - redis
+    
+    cart:
+      image: sai/cart:v1
+      container_name: cart
+      networks:
+        - roboshop1
+      depends_on:
+        - redis
+        - catalogue
+
+    mysql:
+      image: sai/mysql:v1
+      container_name: mysql
+      networks:
+        - roboshop1
+      volumes:
+      - source: mysql
+        target: /var/lib/mysql
+        type: volume
+      
+    shipping:
+      image: sai/shipping:v1
+      container_name: shipping
+      networks:
+        - roboshop1
+      depends_on:
+        - cart
+        - mysql
+
+    rabbitmq:
+      image: rabbitmq
+      container_name: rabbitmq
+      networks:
+        - roboshop1
+      volumes:
+      - source: rabbitmq
+        target: /var/lib/rabbitmq
+        type: volume
+      environment:
+      - RABBITMQ_DEFAULT_USER=roboshop
+      - RABBITMQ_DEFAULT_PASS=roboshop123
+
+    payment:
+      image: sai/payment:v1
+      container_name: payment
+      networks:
+        - roboshop1
+      depends_on:
+        - cart
+        - user
+        - rabbitmq
+
+    web:
+      image: sai/web:v1
+      container_name: web
+      networks:
+        - roboshop1
+      ports:
+      - "81:80"  
+      depends_on:
+       - catalogue
+       - cart
+       - user
+       - payment
+       - shipping    
+
+      
+
