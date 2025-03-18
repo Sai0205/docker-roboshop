@@ -12,7 +12,7 @@
   services:
     mongodb:
       image: sai/mongodb:v1
-      container_name: mongodb
+      container_name: mongodb1
       networks:
         - roboshop1
       volumes:
@@ -22,7 +22,7 @@
 
     catalogue:
       image: sai/catalogue:v1
-      container_name: catalogue
+      container_name: catalogue1
       networks:
         - roboshop1
       depends_on:
@@ -30,7 +30,7 @@
 
     redis:
       image: sai/redis:v1
-      container_name: redis
+      container_name: redis1
       networks:
         - roboshop1
       volumes:
@@ -40,7 +40,7 @@
 
     user:
       image: sai/user:v1
-      container_name: user
+      container_name: user1
       networks:
         - roboshop1
       depends_on:
@@ -49,7 +49,7 @@
     
     cart:
       image: sai/cart:v1
-      container_name: cart
+      container_name: cart1
       networks:
         - roboshop1
       depends_on:
@@ -58,7 +58,7 @@
 
     mysql:
       image: sai/mysql:v1
-      container_name: mysql
+      container_name: mysql1
       networks:
         - roboshop1
       volumes:
@@ -68,7 +68,7 @@
       
     shipping:
       image: sai/shipping:v1
-      container_name: shipping
+      container_name: shipping1
       networks:
         - roboshop1
       depends_on:
@@ -77,7 +77,7 @@
 
     rabbitmq:
       image: rabbitmq
-      container_name: rabbitmq
+      container_name: rabbitmq1
       networks:
         - roboshop1
       volumes:
@@ -90,7 +90,7 @@
 
     payment:
       image: sai/payment:v1
-      container_name: payment
+      container_name: payment1
       networks:
         - roboshop1
       depends_on:
@@ -100,7 +100,7 @@
 
     web:
       image: sai/web:v1
-      container_name: web
+      container_name: web1
       networks:
         - roboshop1
       ports:
