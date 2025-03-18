@@ -1,6 +1,7 @@
-networks:
-  roboshop1:
-    driver: bridge
+  networks:
+    roboshop1:
+      driver: bridge
+  
   
   volumes:
     mongodb:
