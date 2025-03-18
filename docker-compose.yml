@@ -29,7 +29,7 @@
         - mongodb
 
     redis:
-      image: sai/redis:v1
+      image: redis
       container_name: redis1
       networks:
         - roboshop1
